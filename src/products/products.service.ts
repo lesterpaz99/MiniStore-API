@@ -19,7 +19,7 @@ export class ProductsService {
     return 'This action adds a new product';
   }
 
-  findAll(quantity) {
+  findAll(quantity?) {
     if (quantity) {
       return {
         products: this.products,
