@@ -6,9 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
   HttpException,
   HttpStatus,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './products.dto';
@@ -21,6 +21,7 @@ export class ProductsController {
   create(@Body() createProductDto: CreateProductDto) {
     // return this.productsService.create(createProductDto);
     try {
+      console.log(createProductDto);
       return {
         title: 'Create action',
         message: 'We have created a new product',
@@ -36,9 +37,9 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(@Query() { quantity }) {
+  findAll() {
     try {
-      return this.productsService.findAll(quantity);
+      return this.productsService.findAll();
     } catch (error) {
       console.log(error);
       throw new HttpException(
@@ -49,9 +50,9 @@ export class ProductsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     try {
-      return this.productsService.findOne(+id);
+      return this.productsService.findOne(id);
     } catch (error) {
       console.log(error);
       throw new HttpException(
@@ -62,9 +63,12 @@ export class ProductsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    // return this.productsService.update(+id, updateProductDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateProductDto: UpdateProductDto
+  ) {
     try {
+      // return this.productsService.update(id, updateProductDto);
       return {
         message: 'Product has been updated',
         id,
@@ -80,7 +84,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     // return this.productsService.remove(+id);
     try {
       return {
