@@ -1,32 +1,30 @@
 /* eslint-disable prettier/prettier */
 import { PartialType } from '@nestjs/mapped-types';
-import { IsString, IsNumber, IsOptional, IsNotEmpty } from 'class-validator';
+import { IsString, IsNumber, IsNotEmpty, IsUrl, IsPositive, IsInt } from 'class-validator';
 
 export class CreateProductDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  readonly name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  description?: string;
 
   @IsNotEmpty()
   @IsNumber({ allowNaN: false })
+  @IsPositive()
   price: number;
 
-  @IsString()
-  @IsOptional()
-  description?: string;
+  @IsNotEmpty()
+  @IsNumber()
+  @IsInt()
+  readonly stock: number;
+
+  @IsNotEmpty()
+  @IsUrl()
+  readonly image: string;
 }
 
 
-export class UpdateProductDto extends PartialType(CreateProductDto) {
-  @IsString()
-  @IsOptional()
-  name: string;
-
-  @IsNumber({ allowNaN: false })
-  @IsOptional()
-  price: number;
-
-  @IsString()
-  @IsOptional()
-  description?: string;
-}
+export class UpdateProductDto extends PartialType(CreateProductDto) {}
