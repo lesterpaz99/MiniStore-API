@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { PartialType } from '@nestjs/mapped-types';
+import { PartialType } from '@nestjs/swagger';
 import { IsString, IsNumber, IsNotEmpty, IsUrl, IsPositive, IsInt } from 'class-validator';
 
 export class CreateProductDto {
